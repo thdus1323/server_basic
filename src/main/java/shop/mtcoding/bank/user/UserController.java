@@ -54,6 +54,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/logout")
+    public String logout(){
+        session.invalidate();
+        return "redirect:/login-form";
+
+    }
+
 //    @GetMapping("/hello")
 //    public void test1(HttpServletResponse response) throws IOException {
 //        response.setHeader("Location", "http://localhost:8080/login");
@@ -93,9 +100,6 @@ public class UserController {
         return "user/login-form";
     }
 
-    @GetMapping("/logout")
-    public String logout(){
-        return "redirect:/account/list"; //페이지를 찾는게 아니라,api 주소 찾기
-    }
+
 
 }
