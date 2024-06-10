@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  * 목적 : 클래스를 통해 테이블을 자동생성
  */
 
+/**
+ * ioc에 아직 없어.
+ */
 
 @Setter //SETTER 자동 생성
 @Getter // GETTER 자동 생성
@@ -26,4 +29,6 @@ public class User {
     private String password; // 비밀번호
     private String email; //이메일
     private String fullname; // 사람이름
+
+
 }
