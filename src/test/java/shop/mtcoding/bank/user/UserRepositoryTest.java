@@ -42,7 +42,7 @@ public class UserRepositoryTest {
 
     @Test
     public void save_test(){
-        //given
+        //given(데이터 준비)
         String username = "haha";
         String password = "1234";
         String email = "haha@nate.com";

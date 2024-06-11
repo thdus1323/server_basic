@@ -20,14 +20,8 @@ public class UserRepository {
         System.out.println("new UserRepository");
     }
 
-    //
-    public UserRepository(Animal ani) {
-        System.out.println("나오는 건가요?");
-        this.em = em;
-    }
 
     //회원가입
-    @Transactional // 끝났을 때 commit
     public void save(String username, String password, String email, String fullname) {
         Query query = em.createNativeQuery("insert into user_tb(username, password, email, fullname) values (?,?,?,?)");
         query.setParameter(1, username);
@@ -38,7 +32,7 @@ public class UserRepository {
         query.executeUpdate(); // commit이 내장 // write(insert, delete, update)
     }
 
-    @Transactional
+
     public void saveV2(String username, String password, String email, String fullname) {
         User user = new User();
         user.setUsername(username);
@@ -100,6 +94,23 @@ public class UserRepository {
         //("select * from user_tb where username = ? and password = ?)
         query.setParameter("username", username);
         query.setParameter("password", password);
+
+        try {
+            User user = (User) query.getSingleResult();
+            //[0] -> id, [1] -> un, [2] ->pw,  [3]email [4]->fn
+            return user;
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    //객체지향쿼리(JPQL)_오타 날 일 x
+    public User findByUsername(String username) {
+        Query query =
+                em.createQuery("select u from User u where u.username=:username", User.class);
+        //("select * from user_tb where username = ? and password = ?)
+        query.setParameter("username", username);
 
         try {
             User user = (User) query.getSingleResult();
