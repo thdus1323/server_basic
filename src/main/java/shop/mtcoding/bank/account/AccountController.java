@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import shop.mtcoding.bank.user.User;
@@ -16,6 +17,17 @@ import shop.mtcoding.bank.user.User;
 public class AccountController {
 
     private final HttpSession session;
+    private final AccountService accountService;
+
+    @PostMapping("account/save")
+    public String accountSave(AccountRequest.SaveDTO reqDTO){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new RuntimeException("인증되지 않은 사용자입니다"); // 한 줄은 {} 필요 없음
+
+        accountService.계좌생성(reqDTO, sessionUser);
+
+        return "redirect:/account/list";
+    }
 
     //계좌목록
     @GetMapping("/account/list")
