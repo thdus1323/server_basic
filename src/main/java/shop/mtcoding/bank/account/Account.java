@@ -19,13 +19,14 @@ public class Account {
 
     @Column(unique = true, length = 4)
     private String number; //계좌번호
+
     @Column(length = 12)
     private String password; //계좌비밀번호
 
     //1000원 디폴트
     private Integer balance; //잔액(21억보다 많을 수 없다.)
 
-    //fk , db에는 컬렉션, 옵므젝트 담을 수 x
+    //fk , db에는 컬렉션, 오브젝트 담을 수 x
 
     @ManyToOne
     private User user; //hibernate - orm 기술

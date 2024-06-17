@@ -5,6 +5,14 @@ import shop.mtcoding.bank.user.User;
 
 public class AccountRequest {
 
+    @Data
+    public static class TransferDTO{
+        private Integer wNumber;
+        private Integer dNumber;
+        private Integer amount;
+        private String password;
+    }
+
     // SaveDTO 책임 : 요청데이터 파싱 잘하고, 엔티티로 변환하기 => pc에 담굴려고 => 알아서 넣어주니까?
     // updateDTO는 위의 책임 아님.
     @Data

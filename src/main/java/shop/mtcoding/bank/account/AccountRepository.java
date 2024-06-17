@@ -14,6 +14,10 @@ import java.util.List;
 public class AccountRepository {
     private final EntityManager em;
 
+    // TODO : 업데이트 메서드 필요(1개로 5.=6같이 씀. jpql/네이티브로 짜기)
+
+    // TODO : 계좌번호로 계좌조회 필요
+
     public List<Account> findAllV2(Integer sessionUserId){
 
         Query query = em.createNativeQuery("select * from account_tb ac inner join user_tb u on ac.user_id = u.id where ac.user_id = ?");
