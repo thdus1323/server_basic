@@ -19,9 +19,10 @@ public class History {
     private Integer id;
 
     @ManyToOne
-    private Account withdrawAccountNumber; //출금 계좌(보낸 계좌번호)
+    private Account withdrawAccount; //출금 계좌(보낸 계좌번호)
+
     @ManyToOne //FK
-    private Account depositAccountNumber; // 입금 계좌(받은 계좌번호)
+    private Account depositAccount; // 입금 계좌(받은 계좌번호)
 
     private Integer amount; // 이체금액
 

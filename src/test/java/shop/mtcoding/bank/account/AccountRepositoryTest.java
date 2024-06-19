@@ -8,12 +8,33 @@ import shop.mtcoding.bank.user.User;
 
 import java.util.List;
 
+import static org.apache.coyote.http11.Constants.a;
+
 @Import(AccountRepository.class)
 @DataJpaTest
 public class AccountRepositoryTest {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Test
+    public void findByNumber_test(){
+        //given
+        String number = "1111";
+
+        //when
+        accountRepository.findByNumber(number);
+    }
+
+    @Test
+    public void findByNumberJoinUser_test(){
+        //given
+        String number = "1111";
+
+        //when
+        accountRepository.findByNumberJoinUser(number);
+    }
+
 
     @Test
     public void findAllV2_test(){

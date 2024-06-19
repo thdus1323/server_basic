@@ -19,14 +19,30 @@ public class AccountController {
     private final HttpSession session;
     private final AccountService accountService;
 
+    //상세보기
+    @GetMapping("/account/{number}")
+    public String detail(@PathVariable("number") String number){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) throw new RuntimeException("인증되지 않은 사용자입니다"); // 한 줄은 {} 필요 없음
+
+        accountService.계좌상세보기(number,sessionUser); //권한(자기계좌여야한다.)도 체크해야 한다. 인증이 되었어도.
+
+        return "account/detail";
+    }
+
+
     @PostMapping("/account/transfer")
     public String accountTransfer(AccountRequest.TransferDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser == null) throw new RuntimeException("인증되지 않은 사용자입니다");
 
-        //0원 이하 검증 amount가 0원, 0보다 작으면 안돼! (유효성 검사)
+        //미션3) 0원 이하 검증 amount가 0원, 0보다 작으면 안돼! (유효성 검사)
+        if(reqDTO.getAmount() <= 0) throw new RuntimeException("0원 이하는 이체할 수 없어요");
+        //미션4) 비밀번호 길이 검증
+        if(reqDTO.getPassword().length() != 4) throw new RuntimeException("비밀번호는 4자입니다.");
 
         accountService.계좌이체(reqDTO);
+
 
         return "redirect:/account/"+reqDTO.getWNumber();
     }
@@ -91,12 +107,5 @@ public class AccountController {
         return "/account/transfer-form";
     }
 
-    //상세보기
-    @GetMapping("/account/{number}")
-    public String detail(@PathVariable("number") Integer number){
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) throw new RuntimeException("인증되지 않은 사용자입니다"); // 한 줄은 {} 필요 없음
 
-        return "account/detail";
-    }
 }

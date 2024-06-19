@@ -28,6 +28,6 @@ public class Account {
 
     //fk , db에는 컬렉션, 오브젝트 담을 수 x
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user; //hibernate - orm 기술
 }

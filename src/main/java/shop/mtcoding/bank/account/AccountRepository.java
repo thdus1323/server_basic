@@ -9,14 +9,41 @@ import shop.mtcoding.bank.user.User;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @RequiredArgsConstructor
 @Repository
 public class AccountRepository {
     private final EntityManager em;
 
     // TODO : 업데이트 메서드 필요(1개로 5.=6같이 씀. jpql/네이티브로 짜기)
+    public void UpdateAccount(Account account) {
+        Query query = em.createNativeQuery("update account_tb set balance = ? where id = ?", Account.class);
+        query.setParameter(1, account.getBalance());
+    }
 
     // TODO : 계좌번호로 계좌조회 필요
+
+    // TODO: 계화번호로 조회 필요
+    public Account findByNumber(String number) {
+        Query query = em.createQuery("select ac from Account ac where ac.number=:number", Account.class);
+        query.setParameter("number", number);
+
+        Account account = (Account) query.getSingleResult();
+        return account;
+    }
+
+    public Account findByNumberJoinUser(String number){
+        Query query = em.createQuery("select ac from Account ac join fetch ac.user where ac.number=:number", Account.class);
+        query.setParameter("number", number);
+
+        Account account = (Account) query.getSingleResult();
+        return account;
+    }
+
+    //출금 계좌 존재 여부
+    //단계 1. 고객의 출금(wNumber)하려는 계좌가 db에 있는지 조회
+    //단계 2. 있으면 진행, 없으면 해당 계좌 없다고 출력 날림.
 
     public List<Account> findAllV2(Integer sessionUserId){
 
@@ -87,4 +114,5 @@ public class AccountRepository {
 
         query.executeUpdate();
     }
+
 }

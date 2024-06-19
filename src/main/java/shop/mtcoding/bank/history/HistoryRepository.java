@@ -15,9 +15,15 @@ import java.util.List;
 public class HistoryRepository {
     private final EntityManager em;
 
+    public List<History> findByWIdOrDId(Integer accountId){
+        Query query = em.createQuery("select hs from History hs where hs.withdrawAccount.id =:accountId or hs.depositAccount.id =:accountId", History.class);
+        query.setParameter("accountId", accountId);
+
+        return query.getResultList();
+    }
+
    public void save(History history) {
        em.persist(history);
    }
-
 
 }
