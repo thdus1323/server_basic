@@ -16,6 +16,6 @@ public class HistoryRepositoryTest {
     public void findByWIdOrDId_test(){
         Integer accountId = 1;
 
-        historyRepository.findByWIdOrDId(accountId);
+        historyRepository.findByWIdOrDIdJoinAccount(accountId);
     }
 }

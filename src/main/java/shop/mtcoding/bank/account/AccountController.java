@@ -19,14 +19,20 @@ public class AccountController {
     private final HttpSession session;
     private final AccountService accountService;
 
+//    @GetMapping("/test/account") // uk or pk
+//    public @ResponseBody AccountResponse.DetailDTO testDetail(){
+//        AccountResponse.DetailDTO resDTO = accountService.계좌상세보기("1111", 1);
+//        return resDTO;
+//    }
+
     //상세보기
     @GetMapping("/account/{number}")
-    public String detail(@PathVariable("number") String number){
+    public String detail(@PathVariable("number") String number, HttpServletRequest request){
         User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser == null) throw new RuntimeException("인증되지 않은 사용자입니다"); // 한 줄은 {} 필요 없음
 
-        accountService.계좌상세보기(number,sessionUser); //권한(자기계좌여야한다.)도 체크해야 한다. 인증이 되었어도.
-
+        AccountResponse.DetailDTO resDTO = accountService.계좌상세보기(number,sessionUser.getId()); //권한(자기계좌여야한다.)도 체크해야 한다. 인증이 되었어도.
+        request.setAttribute("model",resDTO);
         return "account/detail";
     }
 
